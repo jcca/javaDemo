@@ -12,8 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,6 +26,16 @@ public class RestauranteController extends CommonController<Restaurante, Restaur
     Logger logger = LoggerFactory.getLogger(RestauranteController.class);
     @Autowired
     RestauranteAmbienteRepository repositoryRA;
+
+    @PostMapping("/crear-con-foto")
+    public ResponseEntity crearConFoto(@Valid Restaurante restaurante, BindingResult result,
+                                       @RequestParam MultipartFile archivo) throws IOException {
+        if (!archivo.isEmpty()) {
+            // TODO guardar archivo
+        }
+        return super.crear(restaurante);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity editar(@RequestBody Restaurante restaurante, @PathVariable Long id) {
         var o = service.findById(id);
@@ -56,10 +70,7 @@ public class RestauranteController extends CommonController<Restaurante, Restaur
             System.out.println(tipoAmbiente.getId());
             RestauranteAmbiente ra = new RestauranteAmbiente();
             ra.setRestaurante(entity);
-            ra.setTipoAmbiente(tipoAmbiente);
-            ra.setGrade(20);
             repositoryRA.save(ra);
-            /*entity.getRestauranteAmbientes().add(ra);*/
         });
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(entity));
     }

@@ -58,4 +58,17 @@ public class TipoAmbiente extends Log implements Serializable {
     public void setRestauranteAmbientes(Set<RestauranteAmbiente> restauranteAmbientes) {
         this.restauranteAmbientes = restauranteAmbientes;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof TipoAmbiente)) {
+            return false;
+        }
+        TipoAmbiente ambiente = (TipoAmbiente) obj;
+
+        return this.id != null && this.id.equals(ambiente.getId());
+    }
 }

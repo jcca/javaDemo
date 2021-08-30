@@ -59,4 +59,17 @@ public class TipoComida extends Log implements Serializable {
     public void setRestaurantes(Set<Restaurante> restaurantes) {
         this.restaurantes = restaurantes;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof TipoComida)) {
+            return false;
+        }
+        TipoComida comida = (TipoComida) obj;
+
+        return this.id != null && this.id.equals(comida.getId());
+    }
 }
